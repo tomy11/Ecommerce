@@ -21,6 +21,9 @@ import { UsersModule } from './users/users.module';
         synchronize: true,
       }),
     }),
+    ConfigModule.forRoot({
+      envFilePath: '.env',
+    }),
     UsersModule,
   ],
   controllers: [AppController],
