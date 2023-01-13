@@ -9,6 +9,7 @@ import { ProfileModule } from './profile/profile.module';
 import { OrderModule } from './order/order.module';
 import { ProductModule } from './product/product.module';
 import { OrderdetailModule } from './orderdetail/orderdetail.module';
+import { OrderlogsModule } from './orderlogs/orderlogs.module';
 
 @Module({
   imports: [
@@ -35,6 +36,7 @@ import { OrderdetailModule } from './orderdetail/orderdetail.module';
     OrderModule,
     ProductModule,
     OrderdetailModule,
+    OrderlogsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

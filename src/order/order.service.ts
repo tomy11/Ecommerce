@@ -1,5 +1,6 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { OrderLogs } from '../orderlogs/entity/orderlogs.entity';
 import { Repository } from 'typeorm';
 import { OrderDto, OrderResultDto } from './dto/order.dto';
 import { Order } from './entity/order.entity';
@@ -10,6 +11,9 @@ export class OrderService {
   constructor(
     @InjectRepository(Order)
     private readonly orderRepository: Repository<Order>,
+
+    @InjectRepository(OrderLogs)
+    private readonly logsRepository: Repository<OrderLogs>,
   ) {}
 
   async findAll(current: number, pageSize: number): Promise<any[]> {
@@ -43,6 +47,16 @@ export class OrderService {
 
       const result: any = await this.orderRepository.save(iorder);
       this.logger.log('save order success');
+
+      const ilogs = new OrderLogs();
+      ilogs.userId = idata.userId;
+      ilogs.orderId = result.id;
+      ilogs.qty = 0;
+      ilogs.price = 0;
+      ilogs.detailId = 0;
+      ilogs.productId = 0;
+      await this.logsRepository.save(ilogs);
+
       return result;
     } catch (error) {
       console.log('error save order ', error);
