@@ -4,6 +4,10 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { AppController } from './app/app.controller';
 import { AppService } from './app/app.service';
 import { UsersModule } from './users/users.module';
+import { AuthModule } from './auth/auth.module';
+import { ProfileModule } from './profile/profile.module';
+import { OrderModule } from './order/order.module';
+import { ProductModule } from './product/product.module';
 
 @Module({
   imports: [
@@ -25,6 +29,10 @@ import { UsersModule } from './users/users.module';
       envFilePath: '.env',
     }),
     UsersModule,
+    AuthModule,
+    ProfileModule,
+    OrderModule,
+    ProductModule,
   ],
   controllers: [AppController],
   providers: [AppService],
