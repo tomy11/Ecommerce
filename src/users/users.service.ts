@@ -1,5 +1,6 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { ProfileService } from '../profile/profile.service';
 import { Repository } from 'typeorm';
 import { UserDto, UserResultDto } from './dto/users.dto';
 import { Users } from './entity/users.entity';
@@ -10,6 +11,8 @@ export class UsersService {
   constructor(
     @InjectRepository(Users)
     private readonly userRepository: Repository<Users>,
+
+    private readonly profileService: ProfileService,
   ) {}
 
   async findAll(current: number, pageSize: number): Promise<any[]> {
@@ -51,8 +54,13 @@ export class UsersService {
   async findById(uid: number): Promise<UserDto> {
     try {
       const result = await this.userRepository.findOne({ where: { id: uid } });
+      const profile = await this.profileService.findByUserId(uid);
+      const newRes = {
+        ...result,
+        profile,
+      };
       this.logger.log('find by user id success');
-      return result;
+      return newRes;
     } catch (error) {
       console.log('error find by user id', error);
       this.logger.error('error find by user id ', error);

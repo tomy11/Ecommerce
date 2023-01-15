@@ -19,7 +19,7 @@ export class AuthService {
 
   async register(idata: UserDto): Promise<any> {
     try {
-      const { name, email, password } = idata;
+      const { name, email, password, isActive } = idata;
       const resultEmail = await this.userService.findByEmail(email);
       this.logger.log('Email ', resultEmail);
 
@@ -33,7 +33,7 @@ export class AuthService {
         iuser.name = name;
         iuser.email = email;
         iuser.password = hash;
-        iuser.isActive = false;
+        iuser.isActive = isActive;
         iuser.userNumber = fnId;
         const result = await this.userService.save(iuser);
 
