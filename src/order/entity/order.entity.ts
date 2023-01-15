@@ -28,7 +28,7 @@ export class Order {
   @Column({ length: 15 })
   phone: string;
 
-  @Column({ length: 100 })
+  @Column({ length: 100, nullable: true })
   trackingNumber: string;
 
   @CreateDateColumn({ type: 'timestamp' })

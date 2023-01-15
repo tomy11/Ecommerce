@@ -37,6 +37,7 @@ export class ProductService {
       inputs.name = idata.name;
       inputs.description = idata.description;
       inputs.price = idata.price;
+      inputs.total = idata.total;
       const result: any = await this.productRepository.save(inputs);
       this.logger.log('save product success');
       return result;
@@ -50,6 +51,7 @@ export class ProductService {
     try {
       const result = await this.productRepository.findOne({
         where: { id: uid },
+        relations: ['orderDetail'],
       });
       this.logger.log('find by product id success');
       return result;
@@ -59,12 +61,13 @@ export class ProductService {
     }
   }
 
-  async update(id: any, idata: any): Promise<ProductDto> {
+  async update(id: any, idata: ProductDto): Promise<ProductDto> {
     try {
       const inputs = await this.productRepository.findOne(id);
       inputs.name = idata.name;
       inputs.description = idata.description;
       inputs.price = idata.price;
+      inputs.total = idata.total;
       const result: any = await this.productRepository.update(id, inputs);
 
       this.logger.log('update product success');

@@ -24,11 +24,11 @@ export class OrderLogs {
   @Column()
   price: number;
 
-  @Column()
-  detailId: number;
+  @Column('int', { array: true })
+  detailId: number[];
 
-  @Column()
-  productId: number;
+  @Column('int', { array: true })
+  productId: number[];
 
   @CreateDateColumn({ type: 'timestamp' })
   createdAt: Date;

@@ -22,6 +22,9 @@ export class Product {
   @Column({ type: 'float' })
   price: number;
 
+  @Column()
+  total: number;
+
   @CreateDateColumn({ type: 'timestamp' })
   createdAt: Date;
 

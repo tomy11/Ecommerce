@@ -5,12 +5,12 @@ import {
   Get,
   Logger,
   Param,
+  Post,
   Put,
   Query,
 } from '@nestjs/common';
 import { IResponse } from 'src/utils/interface/IResponse';
 import { ProductDto } from './dto/product.dto';
-import { Product } from './entity/product.entity';
 import { ProductService } from './product.service';
 
 @Controller('product')
@@ -63,18 +63,23 @@ export class ProductController {
     }
   }
 
-  async save(idata: ProductDto): Promise<ProductDto> {
+  @Post('/save')
+  async save(@Body() idata: ProductDto): Promise<IResponse> {
     try {
-      const inputs = new Product();
-      inputs.name = idata.name;
-      inputs.description = idata.description;
-      inputs.price = idata.price;
-      const result: any = await this.productRepository.save(inputs);
-      this.logger.log('save product success');
-      return result;
+      const result = await this.productRepository.save(idata);
+      const resultData: IResponse = {
+        message: 'save product successfuly',
+        data: result,
+      };
+      this.logger.log('save product successfuly', result);
+      return resultData;
     } catch (error) {
-      console.log('error product ', error);
-      this.logger.error('error product ', error);
+      const resultData: IResponse = {
+        message: 'save product error',
+        data: error.message,
+      };
+      this.logger.log('save product error', error);
+      return resultData;
     }
   }
 
